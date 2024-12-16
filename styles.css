@@ -1,0 +1,891 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PlayfairDisplay';
+    src: url('./fonts/PlayfairDisplay-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*Делаем нормализацию стилей, чтобы все элементы во всех браузерах выглядели одинаково*/
+ /**
+  Нормализация блочной модели
+ */
+ *,
+ ::before,
+ ::after {
+   box-sizing: border-box;
+ }
+ 
+ /**
+   Убираем внутренние отступы слева тегам списков,
+   у которых есть атрибут class
+  */
+ :where(ul, ol):where([class]) {
+   padding-left: 0;
+ }
+ 
+ /**
+   Убираем внешние отступы body и двум другим тегам,
+   у которых есть атрибут class
+  */
+ body,
+ :where(blockquote, figure):where([class]) {
+   margin: 0;
+ }
+ 
+ /**
+   Убираем внешние отступы вертикали нужным тегам,
+   у которых есть атрибут class
+  */
+ :where(
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6,
+   p,
+   ul,
+   ol,
+   dl
+ ):where([class]) {
+   margin-block: 0;
+ }
+ 
+ :where(dd[class]) {
+   margin-left: 0;
+ }
+ 
+ :where(fieldset[class]) {
+   margin-left: 0;
+   padding: 0;
+   border: none;
+ }
+ 
+ /**
+   Убираем стандартный маркер маркированному списку,
+   у которого есть атрибут class
+  */
+ :where(ul[class]) {
+   list-style: none;
+ }
+ 
+ :where(address[class]) {
+   font-style: normal;
+ }
+ 
+ /**
+   Обнуляем вертикальные внешние отступы параграфа,
+   объявляем локальную переменную для внешнего отступа вниз,
+   чтобы избежать взаимодействие с более сложным селектором
+  */
+ p {
+   --paragraphMarginBottom: 24px;
+ 
+   margin-block: 0;
+ }
+ 
+ /**
+   Внешний отступ вниз для параграфа без атрибута class,
+   который расположен не последним среди своих соседних элементов
+  */
+ p:where(:not([class]):not(:last-child)) {
+   margin-bottom: var(--paragraphMarginBottom);
+ }
+ 
+ 
+ /**
+   Упрощаем работу с изображениями
+  */
+ img {
+   display: block;
+   max-width: 100%;
+   border-radius: 8px 8px 0px 0px;
+ }
+ 
+ /**
+   Наследуем свойства шрифт для полей ввода
+  */
+ input,
+ textarea,
+ select,
+ button {
+   font: inherit;
+ }
+ 
+ html {
+   /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+   height: 100%;
+   background-color: var(--color-light-gray);
+ }
+ 
+ /**
+   Плавный скролл
+  */
+ html,
+ :has(:target) {
+   scroll-behavior: smooth;
+ }
+ 
+ body {
+   /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+   min-height: 100%;
+   /**
+     Унифицированный интерлиньяж
+    */
+   line-height: 1.5;
+ }
+ 
+ /**
+   Приводим к единому цвету svg-элементы
+  */
+ svg *[fill] { fill: currentColor }
+ svg *[stroke] { stroke: currentColor }
+ 
+ /**
+   Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+  */
+ svg * {
+   transition-property: fill, stroke;
+ }
+ 
+ /**
+   Удаляем все анимации и переходы для людей,
+   которые предпочитают их не использовать
+  */
+ @media (prefers-reduced-motion: reduce) {
+   *,
+   ::before,
+   ::after {
+     animation-duration: 0.01ms !important;
+     animation-iteration-count: 1 !important;
+     transition-duration: 0.01ms !important;
+     scroll-behavior: auto !important;
+   }
+ }
+
+ :root {
+    --color-light-gray: #F4F4F4;
+    --color-light: #ffffff;
+    --color-dark: #000000;
+    --color-brown: #393532;
+    --color-yellow: #FDCF31;
+    --color-gray: #888888;
+    --color-gray-alternate: #D8D8D8;
+
+    --container-width: 1920px;
+
+    --font-family-title: 'PlayfairDisplay', sans-serif;
+    --font-family-subtitle: 'Montserrat', sans-serif;
+
+    --input-height: 52px;
+    --transition-duration: 0.2s;
+ }
+
+ .visually-hidden { /**добавили элементу кнопка для пользователей скрин ридера*/
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    clip-path: inset(100%) !important;
+    clip: rect(0 0 0 0) !important;
+    overflow: hidden !important;
+ }
+
+ .container {
+  justify-content: center;
+  align-items: center;
+  max-width: 1920px;
+  margin: 0 auto;
+ }
+
+ .main {
+  max-width: 1920px;
+  margin: 0 auto;
+  background-color:var(--color-light-gray);
+  }
+
+ .subtitle {
+    display: flex;
+    justify-content: center;
+    font-family: var(--font-family-subtitle);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--color-gray);
+    text-transform: uppercase;
+    padding-top: 29px;
+ }
+
+ .title {
+    font-family: var(--font-family-title);
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 42px;
+    color: var(--color-dark);
+ }
+
+ .title__alternate {
+    font-family: var(--font-family-title);
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    line-height: 42px;
+    color: var(--color-dark);
+    
+ }
+
+ .text {
+    font-family: var(--font-family-subtitle);
+    font-weight: 400;
+    line-height: 24px;
+    font-size: 16px;
+    text-align: center;
+ }
+
+ .header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+    padding-top: 60px;
+    min-width: 577px;
+    margin: 0 auto;
+ }
+
+ .footer_title {
+  font-family: var(--font-family-subtitle);
+  font-weight: bold;
+  line-height: 24px;
+  margin-top: 20px;
+ }
+
+ .footer_subtitle {
+  color: var(--color-gray);
+  font-family: var(--font-family-subtitle);
+  font-style: normal;
+  font-weight: 100;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 10px;
+ }
+
+ .header__title-description {
+  font-size: 18px;
+ }
+
+ .header__title-description {
+  font-family: var(--font-family-subtitle);
+  font-weight: 400;
+ }
+
+ .product__title-description {
+  font-family: var(--font-family-subtitle);
+  font-weight: 400;
+  text-align: center;
+  }
+
+
+ .feature-wrapper {
+  display: flex;
+  gap: 15px;
+  background: url('./images/feature-background.svg') center/cover no-repeat border-box;
+ }
+
+ .feature__text-wrapper {
+  display: grid;
+  width: 567px;
+  height: 203px;
+  padding-bottom: 164px;
+  padding-left: 204px;
+  text-align: start;
+
+ }
+
+ .feature-text {
+  text-align: start;
+  width: 472px;
+ }
+
+ .feature-image {
+  max-width: 52vw;
+  padding-right: 134px;
+  padding-left: 15px;
+ }
+
+ .products__wrapper-title {
+  display: flex;
+  padding-top: 57px;
+  align-items: center;
+  text-align: center;
+ }
+
+ 
+ .products__wrapper {
+  display: flex;
+  flex-direction: column;
+  column-count: 2;
+  background-color: var(--color-light-gray);
+}
+
+.card {
+  display: grid;
+  background-color: var(--color-light);
+  max-width: 670px;
+  max-height: 584px;
+  margin-top: 30px;
+  border-radius: 8px;
+}
+
+.product-line {
+  display: inline-flex;
+  align-items: center;
+  flex: 2;
+  justify-content: space-between;
+  column-gap: 30px;
+}
+
+.product__card-caulikids {
+  margin-right: 10px;
+  margin-left: 515px;
+}
+
+.description-caulkids {
+  margin-left: 80px;
+  margin-left: 80px;
+  padding: 10px 30px 50px 30px;
+}
+
+.description-amayu {
+  margin: 0;
+  padding: 9px 47px 50px 47px;
+}
+
+.product__card-plant-magic {
+  max-width: 470px;
+  height: 100%;
+  
+}
+
+.product__card-weirdos {
+  display: flex;
+  width: 100%;
+  max-width: 470px;
+  height: 608px;
+}
+
+.description-mezcla {
+  margin: 0;
+  padding: 10px 41px 50px 41px;
+  text-align: center;
+}
+
+.product__card-weirdos-image {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.product__card-mezcla {
+  height: 608px;
+}
+
+.description-toum {
+  margin: 10px 30px 50px 30px;
+}
+
+.product__card-toum {
+  margin-left: 15px;
+  margin-right: 515px;
+}
+
+.product__card-lebby {
+  width: 470px;
+}
+
+.product__card-lebby-image {
+  border-radius: 8px;
+}
+
+.description-two-good {
+  padding: 10px 34px 50px 34px;
+}
+
+.description-red-jacket {
+  padding: 10px 37px 50px 37px;
+}
+
+.product__card-red-jacket {
+ height: 607px;
+}
+
+.product__card-review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 470px;
+  height: 607px;
+  margin-top: 30px;
+  text-align: center;
+  background-color: var(--color-light)
+  
+}
+
+.product__card__review-subtitle {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.product__card__review-title {
+  font-size: 20px;
+}
+
+.product__card__review-description {
+  margin-top: 10px;
+  font-size: 14px;
+  padding: 12px 67px 114px 68px;
+}
+
+.product__card11-image {
+  width: 570px;
+  height: 652px;
+}
+
+.product__card-love-beets {
+  width: 570px;
+  height: 652px;
+}
+
+.subtitle_cooked-beets {
+  padding-top: 20px;
+}
+
+.product__love-beets {
+  padding: 6px 10px;
+}
+
+.description__love-beets {
+  padding: 10px 46px 126px 47px;
+}
+
+.product__card-purpose-image {
+  width: 570px;
+  height: 652px;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.gallery-container__header {
+  padding-top: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.matterful-logo {
+  width: 90px;
+}
+
+.atmatterful {
+  padding-top: 7px;
+  margin-bottom: 11px;
+  font-size: 36px;
+}
+
+.gallery-container_text {
+  font-size: 18px;
+}
+
+
+.gallery-container_images {
+  display: inline-grid;
+  grid-auto-flow: column dense;
+  gap: 30px;
+  align-items: end;
+}
+
+.gallery_alternate {
+  margin-top: 30px;
+  align-items: start;
+}
+
+.gallery-container_images > img {
+  border-radius: 0px;
+}
+
+.services {
+  background-color: var(--color-dark);
+  margin-top: 73px;
+  max-width: 1920px;
+}
+
+.services__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 57px;
+  width: 600px;
+  margin: auto;
+}
+
+.services__our-services {
+  color: var(--color-light);
+  font-size: 36px;
+}
+
+.services__our-services-description {
+  padding: 11px 37px 4px 37px;
+  color: var(--color-light);
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.services__items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-flow: row;
+  padding: 30px 15.625% 60px;
+}
+
+.services__items-figcaption {
+  color: var(--color-light);
+  font-size: 24px;
+}
+
+.services__items-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.brands__header {
+  display: flex;
+  text-align: center;
+  font-size: 36px;
+  line-height: 42px;
+  width: 720px;
+  height: 174px;
+  margin: auto;
+  margin-top: 57px;
+}
+
+
+.brands__items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  justify-items: center;
+  gap: 30px;
+  padding: 27px 18.75% 38px;
+  margin: 0 auto;
+}
+
+.brand {
+  width: 170px;
+  height: 94px;
+}
+
+.brands__items-wrapper-footer {
+  color: var(--color-dark);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.location-wrapper {
+  display: flex;
+  margin-top: 25px;
+  justify-content: center;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.location_la-wrapper {
+  display: flex;
+  align-items: flex-end;
+  width: 940px;
+  max-height: 460px;
+  justify-content: space-between;
+  background: url('./images/Location_LA.png') center/cover no-repeat;
+}
+
+.location-img_title-LA {
+  color: var(--color-light);
+  padding-left: 30px;
+  padding-bottom: 11px;
+}
+
+.location_la-wrapper_subtitle {
+  color: var(--color-light);
+  padding-bottom: 14px;
+  padding-right: 30px;
+}
+
+.location-img_subtitle-LA {
+  font-family: var(--font-family-subtitle);
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.location-img_description-LA {
+  font-family: var(--font-family-subtitle);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.location_california-wrapper {
+  display: flex;
+  align-items: flex-end;
+  width: 940px;
+  height: 460px;
+  justify-content: space-between;
+  background: url('./images/Location_monterey.png') center/cover no-repeat;
+}
+
+.location-img_title-california {
+  color: var(--color-light);
+  padding-left: 30px;
+  padding-bottom: 11px;
+}
+
+.location_california-wrapper_subtitle {
+  color: var(--color-light);
+  padding-bottom: 14px;
+  padding-right: 30px;
+}
+
+.location-img_subtitle-california {
+  font-family: var(--font-family-subtitle);
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.location-img_description-california {
+  font-family: var(--font-family-subtitle);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.offer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.offer-container_header {
+  padding: 90px 0 9px;
+  font-size: 36px;
+}
+
+.offer-container_description {
+  font-size: 20px;
+  font-weight: 400;
+  max-width: 758px;
+  line-height: 28px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-color: transparent;
+  font-family: var(--font-family-subtitle);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  text-transform: uppercase;
+  padding: 20px 16px;
+  border: 1px solid;
+}
+
+.contact-button {
+  margin-top: 17px;
+}
+
+.button:hover {
+  color: var(--color-gray);
+}
+
+.footer_sign-up {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  margin: 0 auto;
+  margin-top: 90px;
+  max-width: 1920px;
+  padding: 60px 360px;
+}
+
+.sign-up_description {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-light);
+  align-items: start;
+}
+
+.sign-up_title {
+  color: var(--color-light);
+}
+
+.sign-up_text {
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.footer_input {
+  display: flex;
+  align-items: center;
+  padding: 0%;
+
+}
+
+.footer_sign-up_email {
+  width: 503px;
+  height: 52px;
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom: 1px solid var(--color-gray-alternate);
+}
+
+.footer_submit-button {
+  display: flex;
+  justify-content: center;
+  width: 115px;
+  color: var(--color-light);
+  border: 1px solid;
+  margin-left: 30px;
+}
+
+.footer_soc1als {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer_logo {
+  padding-top: 60px;
+  padding-left: 375px;
+}
+
+.footer_soc1als_wrapper {
+  display: flex;
+  gap: 15px;
+  margin: 60px 360px auto auto;
+}
+
+.footer_soc1al_clock {
+  display: flex;
+  flex-direction: column;
+  min-width: 64px;
+  row-gap: 60px;
+  padding-top: 20px;
+}
+
+.footer_soc1al-adress {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  max-width: 191px;
+}
+
+.footer_soc1al_LA {
+  margin-top: 0;
+}
+
+.footer_soc1al_NY-adress {
+  text-align: start;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.footer_soc1al_CA-adress {
+  text-align: start;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.footer_soc1al-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.footer_soc1al-network-inner {
+  display: flex;
+  gap: 10px;
+}
+
+.footer_soc1al_idea {
+  font-family: var(--font-family-title);
+  /* font-size: bold; */
+  font-size: 20px;
+  line-height: 26.7px;
+}
+
+.footer_soc1al_email {
+  font-family: var(--font-family-subtitle);
+  font-size: 14px;
+  color: var(--color-dark);
+  text-decoration: none;
+  padding-top: 14px;
+  padding-bottom: 18px;
+}
+
+.footer-copyright {
+  display: flex;
+  font-family: var(--font-family-subtitle);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  align-items: center;
+  text-align: center; 
+  color: var(--color-light);
+  background-color: var(--color-dark);
+  height: 46px;
+  margin-top: 40px;
+}
